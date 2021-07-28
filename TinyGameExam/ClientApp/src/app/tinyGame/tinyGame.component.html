@@ -1,0 +1,16 @@
+
+  <div  *ngFor="let card of cards; let i = index" class="box box-{{i + 1}}">
+  {{card.name}}
+</div>
+
+<div  class="question example-box" cdkDragBoundary=".example-boundary" cdkDrag>
+  <p>{{pic_offset}}</p>
+  <img id="QImg"  />
+</div>
+
+<div id="Score">
+
+</div>
+
+
+<!-- *ngIf="expression" -->
