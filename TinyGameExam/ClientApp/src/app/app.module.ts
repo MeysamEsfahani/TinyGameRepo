@@ -13,6 +13,7 @@ import { TinyGameComponent } from './tinyGame/tinyGame.component';
 import { CommonModule } from '@angular/common';
 import { DndModule } from 'ngx-drag-drop';
 
+
 @NgModule({
   declarations: [
     AppComponent,

@@ -9,25 +9,13 @@ using TinyGameExam.Models;
 namespace TinyGameExam.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[tinyGame]")]
     public class TinyGameController : ControllerBase
     {
-
         public TinyGameController()
-        {
-    
+        {    
         }
-
-        [HttpPost]
-        public Question GetQuestion(int GameStageNumber )
-        {
-            return new Question();
-        }
-
-         public Score PostResponse(Response responce)
-        {
-            return new Score();
-        }
+       
     }
 
 

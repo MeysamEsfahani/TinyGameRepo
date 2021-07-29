@@ -3,6 +3,7 @@ namespace TinyGameExam.Models
     public class Score
     {
         const int RightAnswerReward = 20;
+
         const int WrongAnswerCost = -5;
         public int CountRightAnswer  { get; set; }
 

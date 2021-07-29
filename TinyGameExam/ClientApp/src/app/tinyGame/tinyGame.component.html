@@ -1,15 +1,25 @@
 
-  <div  *ngFor="let card of cards; let i = index" class="box box-{{i + 1}}">
+  <div    (dndDragover)="onDragover($event)"
+  (dndDrop)="onDrop($event)" *ngFor="let card of cards; let i = index" class="box box-{{i + 1}}">
   {{card.name}}
 </div>
-
-<div  class="question example-box" cdkDragBoundary=".example-boundary" cdkDrag>
+<div class="content">
+<div  class="col-12 question"
+[dndDraggable]="draggable.data"
+[dndEffectAllowed]="draggable.effectAllowed"
+[dndDisableIf]="draggable.disable"
+(dndStart)="onDragStart($event)"
+(dndCopied)="onDraggableCopied($event)"
+(dndLinked)="onDraggableLinked($event)"
+(dndMoved)="onDraggableMoved($event)"
+(dndCanceled)="onDragCanceled($event)"
+(dndEnd)="onDragEnd($event)">
   <p>{{pic_offset}}</p>
   <img id="QImg"  />
 </div>
-
-<div id="Score">
-<P>SRTHSRDTH   NSF   RTH</P>
+</div>
+<div id="Score" class="col-12 score">
+<p>sdsgsafgsa</p>
 </div>
 
 
