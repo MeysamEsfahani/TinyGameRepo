@@ -13,10 +13,19 @@ namespace TinyGameExam.Controllers
     public class TinyGameController : ControllerBase
     {
         public TinyGameController()
-        {    
+        {
+
         }
-       
+
+        [HttpGet]
+        [Route("/GetQuestion/{GameStage}")]
+        public Question GetQuestion(int GameStage)
+        {
+            return new Question()
+            {
+                Id = 1,
+                ImageUrl = $"../Images/j1.jpg"
+            };
+        }
     }
-
-
 }

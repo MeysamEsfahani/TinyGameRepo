@@ -10,7 +10,7 @@ interface NationalityCards {
 
 interface Question {
   ID: Number;
-  Url : String ;
+  Url: String;
 }
 
 
@@ -25,28 +25,25 @@ export class TinyGameComponent {
 
 
   cards: NationalityCards[] = [
-    {name: "Chinese"},
-    {name: "Japanese"},
-    {name: "Korean"},
-    {name: "Thai"},
+    { name: "Chinese" },
+    { name: "Japanese" },
+    { name: "Korean" },
+    { name: "Thai" },
   ];
 
-  secound :number = 0;
-  pic_offset : number  =0;
+  secound: number = 0;
+  pic_offset: number = 0;
   screenHeight = window.innerHeight;
   picHeight = document.querySelector('question');
 
 
-  sub = interval(3000/this.pic_offset)
+  sub = interval(3000 / this.pic_offset)
     .subscribe((val) => {
-    //  if(this.pic_offset >= this.screenHeight-100)
-    //  this.pic_offset=0;
-    //  this.secound += 1 ;
-    //  this.pic_offset +=  1 ;
-    //  console.log(this.picHeight);
-
-     //console.log(this.pic_offset);
-  });
+      if (this.pic_offset >= this.screenHeight - 100)
+        this.pic_offset = 0;
+      this.secound += 1;
+      this.pic_offset += 1;
+    });
 
   draggable = {
     // note that data is handled with JSON.stringify/JSON.parse
@@ -57,43 +54,42 @@ export class TinyGameComponent {
     handle: false
   };
 
-  onDragStart(event:DragEvent) {
+  onDragStart(event: DragEvent) {
 
     console.log("drag started", JSON.stringify(event, null, 2));
   }
 
-  onDragEnd(event:DragEvent) {
-
+  onDragEnd(event: DragEvent) {
+    console.log('end');
     console.log("drag ended", JSON.stringify(event, null, 2));
   }
 
-  onDraggableCopied(event:DragEvent) {
+  onDraggableCopied(event: DragEvent) {
 
     console.log("draggable copied", JSON.stringify(event, null, 2));
   }
 
-  onDraggableLinked(event:DragEvent) {
+  onDraggableLinked(event: DragEvent) {
 
     console.log("draggable linked", JSON.stringify(event, null, 2));
   }
 
-  onDraggableMoved(event:DragEvent) {
+  onDraggableMoved(event: DragEvent) {
 
     console.log("draggable moved", JSON.stringify(event, null, 2));
   }
 
-  onDragCanceled(event:DragEvent) {
+  onDragCanceled(event: DragEvent) {
 
     console.log("drag cancelled", JSON.stringify(event, null, 2));
   }
 
-  onDragover(event:DragEvent) {
+  onDragover(event: DragEvent) {
 
     console.log("dragover", JSON.stringify(event, null, 2));
   }
 
-  onDrop(event:DndDropEvent) {
-
+  onDrop(event: DndDropEvent) {
     console.log("dropped", JSON.stringify(event, null, 2));
   }
 }
