@@ -18,7 +18,7 @@
 }
 
   .box:hover {
-    transform: scale(0.54);
+    transform: scale(1.09);
   }
 
 .box-1 {
@@ -60,16 +60,22 @@
   align-items: center;
   align-content: center;
   text-align: center;
-  background-color: goldenrod;
-  height: 5vh;
+  background-color: dodgerblue;
+  color : gold;
+  /*height: 5vh;*/
   position: absolute;
+  width: 100%;
+  vertical-align: central;
+  padding: 1px;
+  border-radius : 7px;
 }
 
 .content {
   background-color: white;
-  height: 95vh;
+  height: 90vh;
   top: 0px;
-  overflow:hidden;
+  overflow: hidden;
+  padding: 1px;
 }
 
 .GameImage {
@@ -79,3 +85,14 @@
   border-radius: 5px;
  
 }
+
+.PlayAgain {
+  width:100%;
+  align-content: center;
+  text-align:center;
+  align-items:center;
+  background-color:transparent;
+  padding:1px;
+
+}
+

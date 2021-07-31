@@ -13,7 +13,10 @@
     <img id="QImg" class="GameImage"  src={{question?.imageUrl}} />
   </div>
 </div>
-<div id="Score" class="col-12 score">
-  <p *ngIf="!score"><em>Loading...</em></p>
+<div class="PlayAgain">
+  <button type="button"  class="btn btn-primary btn-sm" (click)="playAgain()">Play Again</button>
+</div>
+<div id="Score" class="score">
+  <p *ngIf="!score"><em>Loading...</em></p>  
   <p>YourScore : {{score?.yourScore}}</p>
 </div>

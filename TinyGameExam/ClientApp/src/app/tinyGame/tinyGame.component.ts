@@ -66,7 +66,7 @@ export class TinyGameComponent implements OnInit {
   startTimer() {
     interval(3000 / this.picOffset).pipe(filter(value => this.timerState))
       .subscribe((val) => {
-        if (this.picOffset >= this.screenHeight - 100) {
+        if (this.picOffset >= this.screenHeight - 220) {
           this.getFreshQuestion();
         }
 
@@ -114,19 +114,32 @@ export class TinyGameComponent implements OnInit {
   }
 
   checkNumberOfStage(): boolean {
-    if (this.gameStage >= this.gameStages) {
+    if (this.gameStage > this.gameStages) {
       this.timerState = false;
       return false;
     }
     return true;
   }
 
+  playAgain() {
+    this.http.get<Country[]>(this.baseUrl + 'ScoreReset').subscribe(result => {
+      this.gameStage = 0;
+      this.getFreshQuestion();
+    }, error => console.error(""));    
+  }
+
   onDrop(country: Country, event: DndDropEvent) {
-    console.log("nemidonam .....", country);
+    if (this.gameStage > this.gameStages)
+      return;
     this.http.post<any>(this.baseUrl + 'StageResponse', { gameStage: this.gameStage, countryId: country.id }).subscribe(result => {
       console.log(result);
       this.getFreshQuestion();
     }, error => console.error(""));
+    this.getFreshQuestion();
   }
+
+  
+
+  
 }
 

@@ -20,6 +20,12 @@ namespace TinyGameExam.Models
         public void RightAnswer() => CountRightAnswer++;
         public void WrongAnswer() => CountWrongAnswer++;
 
+        public void Reset()
+        {
+            CountRightAnswer = 0;
+            CountWrongAnswer = 0;
+        }
+
 
     }
 }

@@ -74,5 +74,11 @@ namespace TinyGameExam.Controllers
         {
             return Countries.OrderBy(x => x.Name).ToList();
         }
+        [HttpGet]
+        [Route("/ScoreReset")]
+        public void ScoreReset()
+        {
+            Score.Reset();
+        }
     }
 }
