@@ -5,7 +5,7 @@
   {{card.name}}
 </div>
 <div class="content">
-  <div [style.width.px = "pic_offset"]  class="col-12 question"
+  <div [style.width.px]= "pic_offset"  class="col-12 question"
        [dndDraggable]="draggable.data"
        [dndEffectAllowed]="draggable.effectAllowed"
        [dndDisableIf]="draggable.disable"
