@@ -4,13 +4,13 @@
      (dndDrop)="onDrop(country , $event)" *ngFor="let country of countries; let i = index" class="box box-{{i + 1}}">
   {{country.name}}
 </div>
-<div class="content">
-  <div [style.top.px]= "picOffset"  class="question"
+<div class="content"  >
+  <div [style.top.px]= "picOffset"  class="question" 
        [dndDraggable]="draggable.data"
        [dndEffectAllowed]="draggable.effectAllowed"
        [dndDisableIf]="draggable.disable">
     
-    <img id="QImg" class="GameImage" src={{question?.imageUrl}} />
+    <img id="QImg" class="GameImage"  src={{question?.imageUrl}} />
   </div>
 </div>
 <div id="Score" class="col-12 score">
