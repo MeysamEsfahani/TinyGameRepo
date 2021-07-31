@@ -16,7 +16,7 @@ namespace TinyGameExam.Controllers
 
         private static readonly List<GameStage> GameStages = new List<GameStage>()
         {
-            new GameStage{Stage = 1 , Question = new Question{ Id = 1 , ImageUrl = ""}, CountryId = 1} ,
+            new GameStage{Stage = 1 , Question = new Question{ Id = 1 , ImageUrl = "Images/j1.jpg"}, CountryId = 1} ,
             new GameStage{Stage = 2 , Question = new Question{ Id = 2 , ImageUrl = ""}, CountryId = 1},
             new GameStage{Stage = 3 , Question = new Question{ Id = 3 , ImageUrl = ""}, CountryId = 1},
             new GameStage{Stage = 4 , Question = new Question{ Id = 4 , ImageUrl = ""}, CountryId = 1},
@@ -29,18 +29,20 @@ namespace TinyGameExam.Controllers
 
         };
 
-        private static readonly List<Country> Countrys = new List<Country>()
+        private static readonly List<Country> Countries = new List<Country>()
         {
             new Country{ Id=1 , Name = "Chinese"} ,
             new Country{ Id=1 , Name = "Japanese"} ,
             new Country{ Id=1 , Name = "Korean"} ,
             new Country{ Id=1 , Name = "Thai"}
-        }; 
+        };
 
+       
         public static Score Score { get; set; }
 
         public TinyGameController()
         {
+            if (Score == null)
             Score = new Score();
         }
 
@@ -53,17 +55,25 @@ namespace TinyGameExam.Controllers
         [Route("/GetScore")]
         public Score GetScore()
         {
-           return Score;
+            return Score;
+        }
+
+        [HttpPost]
+        [Route("/StageResponse")]
+        public void StageResponse([FromBody] Answer answer)
+        {
+            var GameStage = GameStages.First(x => x.Stage == answer.GameStage);
+            if (GameStage.CountryId == answer.CountryId) 
+                Score.RightAnswer();
+            else 
+                Score.WrongAnswer();
         }
 
         [HttpGet]
-        [Route("/StageResponse")]
-        public EmptyResult StageResponse([FromBody]Response response)
+        [Route("/Countries")]
+        public List<Country> getCountries()
         {
-            var GameStage = GameStages.First(x => x.Stage == response.GameStage);
-            if (GameStage.CountryId == response.CountryId) Score.RightAnswer(); else Score.WrongAnswer();            
-            return new EmptyResult();
-
+            return Countries.OrderBy(x => x.Name).ToList();
         }
     }
 }

@@ -1,27 +1,21 @@
 
-  <div  dndDropzone
-         (dndDragover)="onDragover($event)"
-         (dndDrop)="onDrop($event)" *ngFor="let card of cards; let i = index" class="box box-{{i + 1}}">
-  {{card.name}}
+<div dndDropzone
+     (dndDragover)="onDragover($event)"
+     (dndDrop)="onDrop(country , $event)" *ngFor="let country of countries; let i = index" class="box box-{{i + 1}}">
+  {{country.name}}
 </div>
 <div class="content">
-  <div [style.width.px]= "pic_offset"  class="col-12 question"
+  <div [style.top.px]= "picOffset"  class="question"
        [dndDraggable]="draggable.data"
        [dndEffectAllowed]="draggable.effectAllowed"
-       [dndDisableIf]="draggable.disable"
-       (dndStart)="onDragStart($event)"
-       (dndCopied)="onDraggableCopied($event)"
-       (dndLinked)="onDraggableLinked($event)"
-       (dndMoved)="onDraggableMoved($event)"
-       (dndCanceled)="onDragCanceled($event)"
-       (dndEnd)="onDragEnd($event)">
+       [dndDisableIf]="draggable.disable">
     
-    <img id="QImg" class="col-12 GameImage" src="../../../../Images/j1.jpg" />
+    <img id="QImg" class="GameImage" src={{question?.imageUrl}} />
   </div>
 </div>
 <div id="Score" class="col-12 score">
   <p *ngIf="!score"><em>Loading...</em></p>
-  <p>YourScore : {{score.yourScore}}</p>
+  <p>YourScore : {{score?.yourScore}}</p>
 </div>
 
 

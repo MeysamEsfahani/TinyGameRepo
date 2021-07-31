@@ -1,25 +1,26 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 
 import { interval } from 'rxjs';
 
 import { DndDropEvent } from 'ngx-drag-drop';
 
 import { HttpClient } from '@angular/common/http';
+import { filter } from 'rxjs/operators';
 
-interface NationalityCards {
+interface Country {
   id: number;
   name: string;
 }
 
 interface Question {
-  ID: Number;
-  Url: String;
+  id: Number;
+  imageUrl: String;
 }
 
 interface Score {
   countRightAnswer: number;
   countWrongAnswer: number;
-  yourScore : number
+  yourScore: number
 }
 
 
@@ -29,94 +30,103 @@ interface Score {
   styleUrls: ['./tinyGame.component.css'],
 
 })
-export class TinyGameComponent {
-
-
-
-  cards: NationalityCards[] = [
-    { id: 1, name: "Chinese" },
-    { id: 2, name: "Japanese" },
-    { id: 3, name: "Korean" },
-    { id: 4, name: "Thai" },
-  ];
+export class TinyGameComponent implements OnInit {
 
   secound: number = 0;
-  pic_offset: number = 0;
+  picOffset: number = 0;
   screenHeight = window.innerHeight;
   picHeight = document.querySelector('question');
-  private http: HttpClient;
-  private baseUrl: string;
+  gameStage: number = 1;
+  gameStages: number = 10;
 
-  public score: Score;
+   countries: Country[];
+   score: Score;
+  question: Question;
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {    
-    this.http = http;
-    this.baseUrl = baseUrl;
+  timerState = true;
+
+  constructor(
+    private http: HttpClient,
+    @Inject('BASE_URL') private baseUrl: string
+  ) { }
+
+  ngOnInit(): void {
+    this.getCountries();
+    this.initializeGame();
+    }
+
+  initializeGame() {
+    this.getQuestionAPI().subscribe(result => {
+      this.question = result;
+      this.getScore();
+      this.startTimer();
+    }, error => console.error(""));;
   }
 
+  startTimer() {
+    interval(3000 / this.picOffset).pipe(filter(value => this.timerState))
+      .subscribe((val) => {
+        if (this.picOffset >= this.screenHeight - 100) {
+          this.getFreshQuestion();
+        }
 
-
-  sub = interval(3000 / this.pic_offset)
-    .subscribe((val) => {
-      if (this.pic_offset >= this.screenHeight - 100)
-        this.pic_offset = 0;
-      this.secound += 1;
-      this.pic_offset += 1;
-         
-    });
+        this.secound += 1;
+        this.picOffset += 1;
+      });
+  }
 
   draggable = {
-    // note that data is handled with JSON.stringify/JSON.parse
-    // only set simple data or POJO's as methods will be lost
     data: "myDragData",
     effectAllowed: "all",
     disable: false,
     handle: false
   };
 
-  getScore() {    
+  getScore() {
     this.http.get<Score>(this.baseUrl + 'GetScore').subscribe(result => {
       this.score = result;
-    },error => console.error(""));
+    }, error => console.error(""));
   }
 
-  onDragStart(event: DragEvent) {
-
-    console.log("drag started", JSON.stringify(event, null, 2));
+  getQuestionAPI() {
+    return this.http.get<Question>(this.baseUrl + 'GetQuestion/' + this.gameStage)
   }
 
-  onDragEnd(event: DragEvent) {
-   
-    console.log("drag ended", JSON.stringify(event, null, 2));
+  getCountries() {
+    this.http.get<Country[]>(this.baseUrl + 'Countries').subscribe(result => {
+      this.countries = result;
+      this.getScore();
+      this.startTimer();
+    }, error => console.error(""));
   }
 
-  onDraggableCopied(event: DragEvent) {
-
-    console.log("draggable copied", JSON.stringify(event, null, 2));
+  getFreshQuestion() {
+    this.timerState = false;
+    this.getScore();
+    this.gameStage++;
+    if (!this.checkNumberOfStage())
+      return;
+    this.getQuestionAPI().subscribe(result => {
+      this.question = result;
+      this.picOffset = 0;
+      this.timerState = true;
+    });
   }
 
-  onDraggableLinked(event: DragEvent) {
-
-    console.log("draggable linked", JSON.stringify(event, null, 2));
+  checkNumberOfStage(): boolean {
+    if (this.gameStage >= this.gameStages) {
+      this.timerState = false;
+      return false;
+    }
+    return true;
   }
 
-  onDraggableMoved(event: DragEvent) {
-
-    console.log("draggable moved", JSON.stringify(event, null, 2));
-  }
-
-  onDragCanceled(event: DragEvent) {
-
-    console.log("drag cancelled", JSON.stringify(event, null, 2));
-  }
-
-  onDragover(event: DragEvent) {
-
-    console.log("dragover", JSON.stringify(event, null, 2));
-  }
-
-  onDrop(event: DndDropEvent) {
-    console.log("dropped", JSON.stringify(event, null, 2));
+  onDrop(country: Country, event: DndDropEvent) {
+    console.log("nemidonam .....", country);
+    this.http.post<any>(this.baseUrl + 'StageResponse', { gameStage: this.gameStage, countryId: country.id }).subscribe(result => {
+      console.log(result);
+      this.getFreshQuestion();
+    }, error => console.error(""));
   }
 }
 

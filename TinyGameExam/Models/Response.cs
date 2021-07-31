@@ -1,6 +1,6 @@
 namespace TinyGameExam.Models
 {
-    public class Response
+    public class Answer
     {
         public int GameStage { get; set; }        
 
