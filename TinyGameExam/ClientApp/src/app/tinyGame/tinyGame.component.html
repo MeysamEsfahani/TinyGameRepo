@@ -5,7 +5,7 @@
   {{card.name}}
 </div>
 <div class="content">
-  <div class="col-12 question"
+  <div [style.width.px = "pic_offset"]  class="col-12 question"
        [dndDraggable]="draggable.data"
        [dndEffectAllowed]="draggable.effectAllowed"
        [dndDisableIf]="draggable.disable"
@@ -15,12 +15,13 @@
        (dndMoved)="onDraggableMoved($event)"
        (dndCanceled)="onDragCanceled($event)"
        (dndEnd)="onDragEnd($event)">
-    <p>{{pic_offset}}</p>
+    
     <img id="QImg" class="col-12 GameImage" src="../../../../Images/j1.jpg" />
   </div>
 </div>
 <div id="Score" class="col-12 score">
-<p>sdsgsafgsa</p>
+  <p *ngIf="!score"><em>Loading...</em></p>
+  <p>YourScore : {{score.yourScore}}</p>
 </div>
 
 

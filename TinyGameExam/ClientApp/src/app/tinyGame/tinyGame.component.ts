@@ -4,13 +4,22 @@ import { interval } from 'rxjs';
 
 import { DndDropEvent } from 'ngx-drag-drop';
 
+import { HttpClient } from '@angular/common/http';
+
 interface NationalityCards {
+  id: number;
   name: string;
 }
 
 interface Question {
   ID: Number;
   Url: String;
+}
+
+interface Score {
+  countRightAnswer: number;
+  countWrongAnswer: number;
+  yourScore : number
 }
 
 
@@ -25,16 +34,26 @@ export class TinyGameComponent {
 
 
   cards: NationalityCards[] = [
-    { name: "Chinese" },
-    { name: "Japanese" },
-    { name: "Korean" },
-    { name: "Thai" },
+    { id: 1, name: "Chinese" },
+    { id: 2, name: "Japanese" },
+    { id: 3, name: "Korean" },
+    { id: 4, name: "Thai" },
   ];
 
   secound: number = 0;
   pic_offset: number = 0;
   screenHeight = window.innerHeight;
   picHeight = document.querySelector('question');
+  private http: HttpClient;
+  private baseUrl: string;
+
+  public score: Score;
+
+  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {    
+    this.http = http;
+    this.baseUrl = baseUrl;
+  }
+
 
 
   sub = interval(3000 / this.pic_offset)
@@ -43,6 +62,7 @@ export class TinyGameComponent {
         this.pic_offset = 0;
       this.secound += 1;
       this.pic_offset += 1;
+         
     });
 
   draggable = {
@@ -54,13 +74,19 @@ export class TinyGameComponent {
     handle: false
   };
 
+  getScore() {    
+    this.http.get<Score>(this.baseUrl + 'GetScore').subscribe(result => {
+      this.score = result;
+    },error => console.error(""));
+  }
+
   onDragStart(event: DragEvent) {
 
     console.log("drag started", JSON.stringify(event, null, 2));
   }
 
   onDragEnd(event: DragEvent) {
-    console.log('end');
+   
     console.log("drag ended", JSON.stringify(event, null, 2));
   }
 
