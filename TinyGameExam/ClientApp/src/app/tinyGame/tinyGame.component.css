@@ -1,15 +1,25 @@
+.body{
+    overflow:hidden;
+}
+
 .box {
   position: fixed;
   width: 200px;
   height: 200px;
-  background-color: dodgerblue;
-  color: white;
+  background-color: transparent;
+  color: dodgerblue;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 10px;
   border-radius: 10px;
+  border-block-color: dodgerblue;
+  border:groove;
 }
+
+  .box:hover {
+    transform: scale(0.54);
+  }
 
 .box-1 {
   top: 0;
@@ -33,7 +43,7 @@
 
 .question {
   top: 0;
-  background-color: teal;
+  background-color: transparent;
   border-radius: 5px;
   position: relative;
   justify-content: center;
@@ -59,6 +69,7 @@
   background-color: white;
   height: 95vh;
   top: 0px;
+  overflow:hidden;
 }
 
 .GameImage {
@@ -66,4 +77,5 @@
   width: 100%;
   height: 100%;
   border-radius: 5px;
+ 
 }
